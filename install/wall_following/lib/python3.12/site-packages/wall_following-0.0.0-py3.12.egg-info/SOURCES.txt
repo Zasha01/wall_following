@@ -18,4 +18,5 @@ test/test_pep257.py
 test/test_xmllint.py
 wall_following/__init__.py
 wall_following/my_robot_driver.py
+wall_following/obstacle_avoider.py
 worlds/my_world.wbt
