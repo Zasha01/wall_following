@@ -20,11 +20,19 @@ class MyRobotDriver:
         self.__target_twist = Twist()
 
         rclpy.init(args=None)
-        self.__node = rclpy.create_node('my_robot_driver')
-        self.__node.create_subscription(Twist, 'cmd_vel', self.__cmd_vel_callback, 1)
+        # Get robot name from the robot object itself
+        robot_name = self.__robot.getName()
+        self.__node = rclpy.create_node(f'{robot_name}_driver')
+        self.__node.get_logger().info(f'Robot driver initialized for robot: {robot_name}')
+        self.__node.get_logger().info(f'All properties: {properties}')
+        # Subscribe to the namespaced cmd_vel topic
+        cmd_vel_topic = f'/{robot_name}/cmd_vel'
+        self.__node.create_subscription(Twist, cmd_vel_topic, self.__cmd_vel_callback, 1)
+        self.__node.get_logger().info(f'Robot driver subscribing to: {cmd_vel_topic}')
 
     def __cmd_vel_callback(self, twist):
         self.__target_twist = twist
+        self.__node.get_logger().info(f'Received cmd_vel: linear={twist.linear.x}, angular={twist.angular.z}')
 
     def step(self):
         rclpy.spin_once(self.__node, timeout_sec=0)

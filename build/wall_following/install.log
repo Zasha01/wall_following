@@ -6,6 +6,7 @@
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/__init__.cpython-312.pyc
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/ament_index/resource_index/packages/wall_following
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/launch/robot_launch.py
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/launch/multi_robot_launch.py
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/worlds/my_world.wbt
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/resource/my_robot.urdf
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/package.xml

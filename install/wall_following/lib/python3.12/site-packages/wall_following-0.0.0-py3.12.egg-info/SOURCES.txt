@@ -9,6 +9,7 @@ build/wall_following/wall_following.egg-info/entry_points.txt
 build/wall_following/wall_following.egg-info/requires.txt
 build/wall_following/wall_following.egg-info/top_level.txt
 build/wall_following/wall_following.egg-info/zip-safe
+launch/multi_robot_launch.py
 launch/robot_launch.py
 resource/my_robot.urdf
 resource/wall_following
