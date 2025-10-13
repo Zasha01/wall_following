@@ -39,11 +39,11 @@ class ObstacleAvoider(Node):
 
     def __left_sensor_callback(self, message):
         self.__left_sensor_value = message.range
-        self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
+        #self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
 
     def __right_sensor_callback(self, message):
         self.__right_sensor_value = message.range
-        self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+       #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
 
         command_message = Twist()
 

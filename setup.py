@@ -23,7 +23,8 @@ setup(
     entry_points={
         'console_scripts': [
             'my_robot_driver = wall_following.my_robot_driver:main',
-            'obstacle_avoider = wall_following.obstacle_avoider:main'
+            'obstacle_avoider = wall_following.obstacle_avoider:main',
+            'sinusoidal_motion = wall_following.sinusoidal_motion:main'
         ],
     },
 )
