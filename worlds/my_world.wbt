@@ -138,6 +138,36 @@ Robot {
       numberOfRays 2
       aperture 1
     }
+    DistanceSensor {
+      translation -0.042 0 0.063
+      rotation 0 0 1 3.14159
+      children [
+        DEF BACK_SENSOR Transform {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.5 0.5 0.5
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "back_sensor"
+      lookupTable [
+        0 1020 0
+        0.05 1020 0
+        0.5 0 0
+      ]
+      numberOfRays 2
+      aperture 1
+    }
   ]
   boundingObject Transform {
     translation 0 0 0.0415

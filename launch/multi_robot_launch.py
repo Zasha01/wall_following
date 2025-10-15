@@ -25,11 +25,11 @@ def generate_launch_description():
         respawn=True
     )
 
-    robot1_obstacle_avoider = Node(
+    robot1_leader_follower = Node(
         package='wall_following',
-        executable='obstacle_avoider',
+        executable='leader_follower',
         namespace='robot1',
-        name='obstacle_avoider'
+        name='leader_follower'
     )
 
     # Robot 2
@@ -52,7 +52,7 @@ def generate_launch_description():
     return LaunchDescription([
         webots,
         robot1_driver,
-        robot1_obstacle_avoider,
+        robot1_leader_follower,
         robot2_driver,
         robot2_sinusoidal_motion,
         launch.actions.RegisterEventHandler(

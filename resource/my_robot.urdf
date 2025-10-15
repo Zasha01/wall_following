@@ -11,6 +11,11 @@
                 <alwaysOn>true</alwaysOn>
             </ros>
         </device>
+        <device reference="back_sensor" type="DistanceSensor">
+            <ros>
+                <alwaysOn>true</alwaysOn>
+            </ros>
+        </device>
         <plugin type="wall_following.my_robot_driver.MyRobotDriver" />
     </webots>
 </robot>
