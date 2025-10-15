@@ -46,26 +46,37 @@ class LeaderFollower(Node):
         # Leader-follower parameters
         self.__base_speed = 0.12  # Higher base speed for leader
         self.__wait_speed = 0.01 # Slower speed when waiting for follower
-        self.__follow_distance_threshold = 0.3  # Distance threshold to wait for follower
+        self.__follow_distance_threshold = 0.6  # Distance threshold to wait for follower
         self.__avoidance_angular_speed = -2.0
         self.__avoidance_threshold = 0.9 * MAX_RANGE
         
         # State tracking
         self.__is_waiting_for_follower = False
+        
+        # Timer for periodic logging (every 2 seconds)
+        self.__log_timer = self.create_timer(2.0, self.__log_status)
+
+    def __log_status(self):
+        """Periodic logging of sensor values and status"""
+        self.get_logger().info(f'Sensors - Left: {self.__left_sensor_value:.3f}, Right: {self.__right_sensor_value:.3f}, Back: {self.__back_sensor_value:.3f}')
+        if self.__is_waiting_for_follower:
+            self.get_logger().info(f'Status: WAITING for follower (distance: {self.__back_sensor_value:.3f})')
+        else:
+            self.get_logger().info(f'Status: NORMAL speed (follower distance: {self.__back_sensor_value:.3f})')
 
     def __left_sensor_callback(self, message):
         self.__left_sensor_value = message.range
-        self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
+        #self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
 
     def __right_sensor_callback(self, message):
         self.__right_sensor_value = message.range
-        self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
 
     def __back_sensor_callback(self, message):
         self.__back_sensor_value = message.range
-        self.get_logger().info(f'Back sensor: {self.__back_sensor_value}')
 
         command_message = Twist()
+        previous_waiting_state = self.__is_waiting_for_follower
 
         # Determine if we should wait for the follower
         # If back sensor detects something close (likely Robot2), check distance
@@ -75,17 +86,23 @@ class LeaderFollower(Node):
                 # Follower is too far away, slow down
                 command_message.linear.x = self.__wait_speed
                 self.__is_waiting_for_follower = True
-                self.get_logger().info(f'Waiting for follower - distance: {self.__back_sensor_value}')
+                # Only log when state changes
+                if not previous_waiting_state:
+                    self.get_logger().info(f'Started waiting for follower - distance: {self.__back_sensor_value:.3f}')
             else:
                 # Follower is close enough, normal speed
                 command_message.linear.x = self.__base_speed
                 self.__is_waiting_for_follower = False
-                self.get_logger().info(f'Follower close enough - distance: {self.__back_sensor_value}')
+                # Only log when state changes
+                if previous_waiting_state:
+                    self.get_logger().info(f'Follower caught up - distance: {self.__back_sensor_value:.3f}')
         else:
             # No follower detected, normal speed
             command_message.linear.x = self.__base_speed
             self.__is_waiting_for_follower = False
-            self.get_logger().info('No follower detected, normal speed')
+            # Only log when state changes
+            if previous_waiting_state:
+                self.get_logger().info('Lost follower, resuming normal speed')
 
         # Obstacle avoidance logic (always active)
         if self.__left_sensor_value < self.__avoidance_threshold or self.__right_sensor_value < self.__avoidance_threshold:

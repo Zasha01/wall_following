@@ -47,14 +47,24 @@ class SinusoidalMotion(Node):
         # Obstacle avoidance parameters
         self.__avoidance_angular_speed = -2.0
         self.__avoidance_threshold = 0.9 * MAX_RANGE
+        
+        # Timer for periodic logging (every 3 seconds)
+        self.__log_timer = self.create_timer(3.0, self.__log_status)
+
+    def __log_status(self):
+        """Periodic logging of sensor values and current speed"""
+        current_time = self.get_clock().now()
+        elapsed_time = (current_time - self.__time_start).nanoseconds / 1e9
+        current_speed = self.__base_speed + self.__speed_amplitude * math.sin(2 * math.pi * self.__frequency * elapsed_time)
+        self.get_logger().info(f'Sensors - Left: {self.__left_sensor_value:.3f}, Right: {self.__right_sensor_value:.3f}, Speed: {current_speed:.3f}')
 
     def __left_sensor_callback(self, message):
         self.__left_sensor_value = message.range
-        self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
+        #self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
 
     def __right_sensor_callback(self, message):
         self.__right_sensor_value = message.range
-        self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
 
         command_message = Twist()
 

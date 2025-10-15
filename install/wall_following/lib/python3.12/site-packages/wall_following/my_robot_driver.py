@@ -32,7 +32,7 @@ class MyRobotDriver:
 
     def __cmd_vel_callback(self, twist):
         self.__target_twist = twist
-        self.__node.get_logger().info(f'Received cmd_vel: linear={twist.linear.x}, angular={twist.angular.z}')
+        #self.__node.get_logger().info(f'Received cmd_vel: linear={twist.linear.x}, angular={twist.angular.z}')
 
     def step(self):
         rclpy.spin_once(self.__node, timeout_sec=0)
