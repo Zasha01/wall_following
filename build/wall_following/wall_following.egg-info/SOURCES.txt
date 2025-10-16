@@ -18,6 +18,8 @@ test/test_flake8.py
 test/test_pep257.py
 test/test_xmllint.py
 wall_following/__init__.py
+wall_following/leader_follower.py
 wall_following/my_robot_driver.py
 wall_following/obstacle_avoider.py
+wall_following/sinusoidal_motion.py
 worlds/my_world.wbt

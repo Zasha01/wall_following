@@ -1,9 +1,13 @@
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/my_robot_driver.py
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/leader_follower.py
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/obstacle_avoider.py
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__init__.py
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/sinusoidal_motion.py
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/my_robot_driver.cpython-312.pyc
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/leader_follower.cpython-312.pyc
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/obstacle_avoider.cpython-312.pyc
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/__init__.cpython-312.pyc
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/sinusoidal_motion.cpython-312.pyc
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/ament_index/resource_index/packages/wall_following
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/launch/robot_launch.py
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/share/wall_following/launch/multi_robot_launch.py
@@ -17,5 +21,7 @@
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following-0.0.0-py3.12.egg-info/SOURCES.txt
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following-0.0.0-py3.12.egg-info/zip-safe
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following-0.0.0-py3.12.egg-info/entry_points.txt
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/wall_following/leader_follower
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/wall_following/my_robot_driver
 /home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/wall_following/obstacle_avoider
+/home/zaka/ros2_ws/src/wall_following/install/wall_following/lib/wall_following/sinusoidal_motion

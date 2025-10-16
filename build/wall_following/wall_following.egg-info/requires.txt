@@ -1,1 +1,3 @@
+cv-bridge
+opencv-python
 setuptools
