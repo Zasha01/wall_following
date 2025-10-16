@@ -13,7 +13,7 @@ setup(
     version='0.0.0',
     packages=find_packages(exclude=['test']),
     data_files=data_files,
-    install_requires=['setuptools'],
+    install_requires=['setuptools', 'opencv-python', 'cv-bridge'],
     zip_safe=True,
     maintainer='user',
     maintainer_email='user.name@mail.com',
