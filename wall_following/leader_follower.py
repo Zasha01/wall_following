@@ -155,9 +155,9 @@ class LeaderFollower(Node):
                         # Check if this looks like sky (blue-ish)
                         # Sky colors: rgba(115,133,168), rgba(87,106,152), rgba(55,68,105)
                         # Blue colors have: B > G and B > R
-                        if (avg_green_rgb[0] > avg_green_rgb[1] and avg_green_rgb[0] > avg_green_rgb[2] and
-                            avg_green_rgb[0] > 100):  # High blue component
-                            #self.get_logger().warn(f'Detected color looks like sky/blue! RGB: R={avg_green_rgb[2]:.1f}, G={avg_green_rgb[1]:.1f}, B={avg_green_rgb[0]:.1f}')
+                        #if (avg_green_rgb[0] > avg_green_rgb[1] and avg_green_rgb[0] > avg_green_rgb[2] and
+                        #    avg_green_rgb[0] > 100):  # High blue component
+                        #    self.get_logger().warn(f'Detected color looks like sky/blue! RGB: R={avg_green_rgb[2]:.1f}, G={avg_green_rgb[1]:.1f}, B={avg_green_rgb[0]:.1f}')
                 else:
                     # No green pixels detected - let's see what colors are in the image
                     avg_color = cv_image.mean(axis=(0, 1))

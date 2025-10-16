@@ -58,12 +58,6 @@ This will:
 - Start Robot1 (leader) with color detection and leader-follower behavior
 - Start Robot2 (follower) with sinusoidal motion and obstacle avoidance
 
-### Individual Robot Testing
-
-```bash
-# Test single robot
-ros2 launch wall_following robot_launch.py
-```
 
 ## System Architecture
 
