@@ -7,7 +7,7 @@ data_files.append(('share/' + package_name + '/launch', ['launch/robot_launch.py
 data_files.append(('share/' + package_name + '/worlds', ['worlds/my_world.wbt']))
 data_files.append(('share/' + package_name + '/resource', ['resource/my_robot.urdf']))
 data_files.append(('share/' + package_name, ['package.xml']))
-data_files.append(('share/' + package_name + '/worlds/textures', ['worlds/textures/tilde2.stl']))
+#data_files.append(('share/' + package_name + '/worlds/textures', ['worlds/textures/tilde2.stl']))
 setup(
     name=package_name,
     version='0.0.0',
