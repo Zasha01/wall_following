@@ -8,8 +8,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.41568725976262977 -0.07530048032883829 0.9063850946111605 3.4670664752822793
-  position 5.4127951679056014 2.0253219323096068 6.482777892821701
+  orientation -0.32551252112484813 -0.40020041125993394 0.8566686812404928 4.764226232854815
+  position -0.457632332457399 4.528167839859021 3.703340341126822
   follow "robot1"
 }
 TexturedBackground {
@@ -19,9 +19,7 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 CircleArena {
-  wallAppearance BrushedAluminium {
-    colorOverride 0 0 0
-  }
+  radius 3
 }
 Robot {
   translation 0.84 -0.24 0
@@ -355,4 +353,30 @@ Robot {
   controllerArgs [
     "1235"
   ]
+}
+Solid {
+  translation 1.08406 0.0650552 0.05
+  rotation 0 0 1 -0.5233953071795865
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.8 0.8 0.8
+        roughness 1
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "textures/tilde2.stl"
+        ]
+      }
+    }
+  ]
+  boundingObject Mesh {
+    url [
+      "textures/tilde2.stl"
+    ]
+  }
+  physics Physics {
+  }
+  rotationStep 0.261809
 }
