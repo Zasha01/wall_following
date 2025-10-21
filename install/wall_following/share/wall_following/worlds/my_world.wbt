@@ -8,8 +8,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.41979275737388877 -0.11785202166033325 0.8999360765337724 2.491758293354907
-  position 4.293863722151656 -5.151498897199577 5.503070350884916
+  orientation -0.6544885182016233 0.27368648847972843 0.7047981878281746 1.6491039024520506
+  position -1.816914532067073 -3.870906187783069 6.77184612682256
   follow "robot1"
 }
 TexturedBackground {
@@ -49,8 +49,8 @@ Solid {
   }
 }
 Robot {
-  translation 0.382476 -0.690568 0
-  rotation 0 0 -1 -1.5707953071795862
+  translation 0.0672905 -0.377035 -2.66453e-15
+  rotation 0 0 -1 0
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
@@ -243,8 +243,8 @@ Robot {
   ]
 }
 Robot {
-  translation 0.40705 -1.23832 0
-  rotation 0 0 1 1.57079
+  translation -0.200852 -0.333945 1.77635e-15
+  rotation 0 0 1 -0.1308996938995747
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
