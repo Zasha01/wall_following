@@ -8,7 +8,8 @@ from cv_bridge import CvBridge
 import cv2
 
 
-MAX_RANGE = 0.15
+MAX_RANGE = 0.5
+MAX_RANGE_FRONT = 0.3
 BACK_SENSOR_MAX_RANGE = 0.5
 
 
@@ -22,6 +23,8 @@ class LeaderFollower(Node):
             # If no namespace, use global topics
             left_topic = '/ds0'
             right_topic = '/ds1'
+            left_front_topic = '/ds2'
+            right_front_topic = '/ds3'
             back_topic = '/back_sensor'
             color_topic = '/color_sensor/image_color'
             cmd_topic = '/cmd_vel'
@@ -29,6 +32,8 @@ class LeaderFollower(Node):
             # If in namespace, use namespaced topics
             left_topic = f'{namespace}/ds0'
             right_topic = f'{namespace}/ds1'
+            left_front_topic = f'{namespace}/ds2'
+            right_front_topic = f'{namespace}/ds3'
             back_topic = f'{namespace}/back_sensor'
             color_topic = f'{namespace}/color_sensor/image_color'
             cmd_topic = f'{namespace}/cmd_vel'
@@ -37,6 +42,8 @@ class LeaderFollower(Node):
 
         self.create_subscription(Range, left_topic, self.__left_sensor_callback, 1)
         self.create_subscription(Range, right_topic, self.__right_sensor_callback, 1)
+        self.create_subscription(Range, left_front_topic, self.__left_front_sensor_callback, 1)
+        self.create_subscription(Range, right_front_topic, self.__right_front_sensor_callback, 1)
         self.create_subscription(Range, back_topic, self.__back_sensor_callback, 1)
         self.create_subscription(Image, color_topic, self.__color_callback, 1)
         
@@ -50,6 +57,8 @@ class LeaderFollower(Node):
         # Initialize sensor values
         self.__left_sensor_value = MAX_RANGE
         self.__right_sensor_value = MAX_RANGE
+        self.__left_front_sensor_value = MAX_RANGE_FRONT
+        self.__Right_front_sensor_value = MAX_RANGE_FRONT
         self.__back_sensor_value = BACK_SENSOR_MAX_RANGE
         self.__green_detected = False
         
@@ -61,11 +70,12 @@ class LeaderFollower(Node):
         self.__debug_interval = 5  # Save every 5th image for more frequent debugging
         
         # Leader-follower parameters
-        self.__base_speed = 0.12  # Higher base speed for leader
-        self.__wait_speed = 0.01 # Slower speed when waiting for follower
-        self.__follow_distance_threshold = 0.4  # Distance threshold to wait for follower
+        self.__base_speed = 0.35  # Higher base speed for leader
+        self.__wait_speed = 0.05 # Slower speed when waiting for follower
+        self.__follow_distance_threshold = 0.75  # Distance threshold to wait for follower
         self.__avoidance_angular_speed = -2.0
-        self.__avoidance_threshold = 0.9 * MAX_RANGE
+        self.__avoidance_threshold = MAX_RANGE
+        self.__avoidance_threshold_front = MAX_RANGE_FRONT
         
         # State tracking
         self.__is_waiting_for_follower = False
@@ -91,6 +101,12 @@ class LeaderFollower(Node):
 
     def __right_sensor_callback(self, message):
         self.__right_sensor_value = message.range
+        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+    def __left_front_sensor_callback(self, message):
+        self.__left_front_sensor_value = message.range
+        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+    def __right_front_sensor_callback(self, message):
+        self.__right_front_sensor_value = message.range
         #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
 
     def __color_callback(self, message):
@@ -194,14 +210,14 @@ class LeaderFollower(Node):
             # Robot2 detected behind us
             if self.__back_sensor_value > self.__follow_distance_threshold:
                 # Robot2 is too far away, slow down
-                command_message.linear.x = self.__wait_speed
+                command_message.linear.x = self.__base_speed * (1 - 2*(self.__back_sensor_value - self.__follow_distance_threshold))
                 self.__is_waiting_for_follower = True
                 # Only log when state changes
                 if not previous_waiting_state:
                     self.get_logger().info(f'Started waiting for Robot2 (green detected) - distance: {self.__back_sensor_value:.3f}')
             else:
                 # Robot2 is close enough, normal speed
-                command_message.linear.x = self.__base_speed
+                command_message.linear.x = self.__base_speed * (1.5 - self.__back_sensor_value)
                 self.__is_waiting_for_follower = False
                 # Only log when state changes
                 if previous_waiting_state:
@@ -218,13 +234,19 @@ class LeaderFollower(Node):
                     self.get_logger().info('Lost Robot2 (no object detected), slowing down to wait')
 
         # Obstacle avoidance logic (always active)
-        if self.__left_sensor_value < self.__avoidance_threshold or self.__right_sensor_value < self.__avoidance_threshold:
-            command_message.angular.z = self.__avoidance_angular_speed
-            self.get_logger().info('Avoiding obstacle!')
-        else:
-            command_message.angular.z = 0.0  # No turning when no obstacles
+        if self.__left_front_sensor_value < self.__avoidance_threshold_front or self.__right_front_sensor_value < self.__avoidance_threshold_front:
+            command_message.angular.z = self.computeAngularZ(self.__left_front_sensor_value) if(self.__left_front_sensor_value < self.__right_front_sensor_value) else -self.computeAngularZ(self.__right_front_sensor_value)
+        elif (self.__left_sensor_value > 0.5 * self.__avoidance_threshold) and (self.__left_sensor_value < self.__avoidance_threshold):
+            command_message.angular.z = -3 * (self.__left_sensor_value - 1)
 
         self.__publisher.publish(command_message)
+    def computeAngularZ(self, current_sensor_value):
+        wall_distance = 0.2
+        if (current_sensor_value < wall_distance):
+            return 8 * (current_sensor_value - wall_distance)
+        elif (current_sensor_value < MAX_RANGE): 
+            return 1 * (current_sensor_value - wall_distance)
+        return 0
 
 
 def main(args=None):

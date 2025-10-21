@@ -18,7 +18,9 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 CircleArena {
+  radius 10.0
 }
+
 Robot {
   translation 0.84 -0.24 0
   rotation 0 0 1 -1.5707953071795862
@@ -31,6 +33,7 @@ Robot {
       device [
         RotationalMotor {
           name "left wheel motor"
+          maxVelocity 80.0
         }
       ]
       endPoint Solid {
@@ -68,6 +71,7 @@ Robot {
       device [
         RotationalMotor {
           name "right wheel motor"
+          maxVelocity 80
         }
       ]
       endPoint Solid {
@@ -99,8 +103,8 @@ Robot {
       ]
     }
     DistanceSensor {
-      translation 0.042 0.02 0.063
-      rotation 0 0 1 0.5236003061004253
+      translation 0.0 0.04849744832 0.063
+      rotation 0 0 1 1.5707963267948966
       children [
         DEF SENSOR Pose {
           rotation 0 1 0 1.5708
@@ -123,14 +127,14 @@ Robot {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.15 0 0
+        0.5 0 0
       ]
       numberOfRays 2
       aperture 1
     }
     DistanceSensor {
-      translation 0.042 -0.02 0.063
-      rotation 0 0 1 -0.5235996938995747
+      translation 0.0 -0.04849744832 0.063
+      rotation 0 0 1 -1.5707963267948966
       children [
         USE SENSOR
       ]
@@ -138,10 +142,55 @@ Robot {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.15 0 0
+        0.5 0 0
       ]
       numberOfRays 2
       aperture 1
+    }
+DistanceSensor {
+      translation 0.042 0.02 0.063
+      rotation 0 0 1 0.5236003061004253
+      children [
+        DEF SENSOR2 Pose {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 1 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds2"
+      lookupTable [
+        0 1020 0
+        0.05 1020 0
+        0.3 0 0
+      ]
+      numberOfRays 1
+      aperture 0.5
+    }
+    DistanceSensor {
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.5235996938995747
+      children [
+        USE SENSOR2
+      ]
+      name "ds3"
+      lookupTable [
+        0 1020 0
+        0.05 1020 0
+        0.3 0 0
+      ]
+      numberOfRays 1
+      aperture 0.5
     }
     DistanceSensor {
       translation -0.042 0 0.063
@@ -168,10 +217,10 @@ Robot {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.5 0 0
+        1 0 0
       ]
-      numberOfRays 2
-      aperture 1
+      numberOfRays 1
+      aperture 0.75
     }
     Camera {
       translation -0.042 0 0.063
@@ -225,6 +274,7 @@ Robot {
       device [
         RotationalMotor {
           name "left wheel motor"
+          maxVelocity 80.0
         }
       ]
       endPoint Solid {
@@ -262,6 +312,7 @@ Robot {
       device [
         RotationalMotor {
           name "right wheel motor"
+          maxVelocity 80.0
         }
       ]
       endPoint Solid {
@@ -293,8 +344,8 @@ Robot {
       ]
     }
     DistanceSensor {
-      translation 0.042 0.02 0.063
-      rotation 0 0 1 0.5236003061004253
+      translation 0.0 0.04849744832 0.063
+      rotation 0 0 1 1.5707963267948966
       children [
         DEF SENSOR2 Pose {
           rotation 0 1 0 1.5708
@@ -317,14 +368,14 @@ Robot {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.15 0 0
+        0.5 0 0
       ]
       numberOfRays 2
       aperture 1
     }
     DistanceSensor {
-      translation 0.042 -0.02 0.063
-      rotation 0 0 1 -0.5235996938995747
+      translation 0.0 -0.04849744832 0.063
+      rotation 0 0 1 -1.5707963267948966
       children [
         USE SENSOR2
       ]
@@ -332,10 +383,55 @@ Robot {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.15 0 0
+        0.5 0 0
       ]
       numberOfRays 2
       aperture 1
+    }
+DistanceSensor {
+      translation 0.042 0.02 0.063
+      rotation 0 0 1 0.5236003061004253
+      children [
+        DEF SENSOR2 Pose {
+          rotation 0 1 0 1.5708
+          children [
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 1 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.004
+                radius 0.008
+              }
+            }
+          ]
+        }
+      ]
+      name "ds2"
+      lookupTable [
+        0 1020 0
+        0.05 1020 0
+        0.3 0 0
+      ]
+      numberOfRays 1
+      aperture 0.5
+    }
+    DistanceSensor {
+      translation 0.042 -0.02 0.063
+      rotation 0 0 1 -0.5235996938995747
+      children [
+        USE SENSOR2
+      ]
+      name "ds3"
+      lookupTable [
+        0 1020 0
+        0.05 1020 0
+        0.3 0 0
+      ]
+      numberOfRays 1
+      aperture 0.5
     }
   ]
   name "robot2"
@@ -351,4 +447,22 @@ Robot {
   controllerArgs [
     "1235"
   ]
+}
+Solid {
+  translation 1.23 0 0
+  rotation 0 0 1 -1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.7 0.7
+      }
+      geometry Box {
+        size 8 0.5 1
+      }
+    }
+  ]
+  name "wall"
+  boundingObject Box {
+    size 8 0.5 1
+  }
 }

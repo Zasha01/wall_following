@@ -5,7 +5,8 @@ from geometry_msgs.msg import Twist
 import math
 
 
-MAX_RANGE = 0.15
+MAX_RANGE = 0.5
+MAX_RANGE_FRONT = 0.3
 
 
 class SinusoidalMotion(Node):
@@ -18,17 +19,24 @@ class SinusoidalMotion(Node):
             # If no namespace, use global topics
             left_topic = '/ds0'
             right_topic = '/ds1'
+            left_front_topic = '/ds2'
+            right_front_topic = '/ds3'
+
             cmd_topic = '/cmd_vel'
         else:
             # If in namespace, use namespaced topics
             left_topic = f'{namespace}/ds0'
             right_topic = f'{namespace}/ds1'
+            left_front_topic = f'{namespace}/ds2'
+            right_front_topic = f'{namespace}/ds3'
             cmd_topic = f'{namespace}/cmd_vel'
 
         self.__publisher = self.create_publisher(Twist, cmd_topic, 1)
 
         self.create_subscription(Range, left_topic, self.__left_sensor_callback, 1)
         self.create_subscription(Range, right_topic, self.__right_sensor_callback, 1)
+        self.create_subscription(Range, left_front_topic, self.__left_front_sensor_callback, 1)
+        self.create_subscription(Range, right_front_topic, self.__right_front_sensor_callback, 1)
         
         # Debug output
         self.get_logger().info(f'Sinusoidal motion subscribing to: {left_topic} and {right_topic}')
@@ -37,16 +45,19 @@ class SinusoidalMotion(Node):
         # Initialize sensor values
         self.__left_sensor_value = MAX_RANGE
         self.__right_sensor_value = MAX_RANGE
+        self.__left_front_sensor_value = MAX_RANGE_FRONT
+        self.__right_front_sensor_value = MAX_RANGE_FRONT
         
         # Sinusoidal motion parameters
         self.__time_start = self.get_clock().now()
-        self.__base_speed = 0.05 # Base forward speed
-        self.__speed_amplitude = 0.05  # Amplitude of speed variation
+        self.__base_speed = 0.1 # Base forward speed
+        self.__speed_amplitude = 0.01  # Amplitude of speed variation
         self.__frequency = 0.5  # Frequency of oscillation (Hz)
         
         # Obstacle avoidance parameters
         self.__avoidance_angular_speed = -2.0
-        self.__avoidance_threshold = 0.9 * MAX_RANGE
+        self.__avoidance_threshold = MAX_RANGE
+        self.__avoidance_threshold_front = MAX_RANGE_FRONT
         
         # Timer for periodic logging (every 3 seconds)
         self.__log_timer = self.create_timer(3.0, self.__log_status)
@@ -61,6 +72,12 @@ class SinusoidalMotion(Node):
     def __left_sensor_callback(self, message):
         self.__left_sensor_value = message.range
         #self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
+    def __left_front_sensor_callback(self, message):
+        self.__left_front_sensor_value = message.range
+        #self.get_logger().info(f'Left front sensor: {self.__left_sensor_value}')
+    def __right_front_sensor_callback(self, message):
+        self.__right_front_sensor_value = message.range
+        #self.get_logger().info(f'Right front sensor: {self.__left_sensor_value}')
 
     def __right_sensor_callback(self, message):
         self.__right_sensor_value = message.range
@@ -78,13 +95,20 @@ class SinusoidalMotion(Node):
         command_message.linear.x = max(0.0, sinusoidal_speed)  # Ensure non-negative speed
 
         # Obstacle avoidance logic
-        if self.__left_sensor_value < self.__avoidance_threshold or self.__right_sensor_value < self.__avoidance_threshold:
-            command_message.angular.z = self.__avoidance_angular_speed
-            self.get_logger().info('Avoiding obstacle!')
-        else:
-            command_message.angular.z = 0.0  # No turning when no obstacles
+        if self.__left_front_sensor_value < self.__avoidance_threshold_front or self.__right_front_sensor_value < self.__avoidance_threshold_front:
+            command_message.angular.z = self.computeAngularZ(self.__left_front_sensor_value) if(self.__left_front_sensor_value < self.__right_front_sensor_value) else -self.computeAngularZ(self.__right_front_sensor_value)
+        elif (self.__left_sensor_value > 0.5 * self.__avoidance_threshold) and (self.__left_sensor_value < self.__avoidance_threshold):
+            command_message.angular.z = -3 * (self.__left_sensor_value - 1)
 
         self.__publisher.publish(command_message)
+    def computeAngularZ(self, current_sensor_value):
+        wall_distance = 0.2
+        if (current_sensor_value < wall_distance):
+            return 8 * (current_sensor_value - wall_distance)
+        elif (current_sensor_value < self.__avoidance_threshold_front): 
+            return 1 * (current_sensor_value - wall_distance)
+        return 0
+    
 
 
 def main(args=None):
