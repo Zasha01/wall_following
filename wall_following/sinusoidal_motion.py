@@ -50,7 +50,7 @@ class SinusoidalMotion(Node):
         
         # Sinusoidal motion parameters
         self.__time_start = self.get_clock().now()
-        self.__base_speed = 0.2 # Base forward speed
+        self.__base_speed = 0.16 # Base forward speed
         self.__speed_amplitude = 0.12  # Amplitude of speed variation
         self.__frequency = 0.5  # Frequency of oscillation (Hz)
         
@@ -98,7 +98,7 @@ class SinusoidalMotion(Node):
         if self.__left_front_sensor_value < self.__avoidance_threshold_front or self.__right_front_sensor_value < self.__avoidance_threshold_front:
             command_message.angular.z = self.computeAngularZ(self.__left_front_sensor_value) if(self.__left_front_sensor_value < self.__right_front_sensor_value) else -self.computeAngularZ(self.__right_front_sensor_value)
         elif (self.__left_sensor_value > 0.5 * self.__avoidance_threshold) and (self.__left_sensor_value < self.__avoidance_threshold):
-            command_message.angular.z = -3 * (self.__left_sensor_value - 1)
+            command_message.angular.z = -5 * (self.__left_sensor_value - 1)
 
         self.__publisher.publish(command_message)
     def computeAngularZ(self, current_sensor_value):
@@ -106,7 +106,7 @@ class SinusoidalMotion(Node):
         if (current_sensor_value < wall_distance):
             return 8 * (current_sensor_value - wall_distance)
         elif (current_sensor_value < self.__avoidance_threshold_front): 
-            return 1 * (current_sensor_value - wall_distance)
+            return 6* (current_sensor_value - wall_distance)
         return 0
     
 

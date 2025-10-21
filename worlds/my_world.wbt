@@ -461,6 +461,7 @@ Solid {
         url [
           "tilde.obj"
         ]
+        scale 2 2 1
       }
     }
   ]
