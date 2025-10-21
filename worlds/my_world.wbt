@@ -1,15 +1,15 @@
 #VRML_SIM R2025a utf8
 
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/develop/projects/objects/backgrounds/protos/TexturedBackground.proto"
 EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/objects/floors/protos/CircleArena.proto"
-EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/projects/appearances/protos/BrushedAluminium.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/appearances/protos/BrushedAluminium.proto"
 
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.41568725976262977 -0.07530048032883829 0.9063850946111605 3.4670664752822793
-  position 5.4127951679056014 2.0253219323096068 6.482777892821701
+  orientation -0.41979275737388877 -0.11785202166033325 0.8999360765337724 2.491758293354907
+  position 4.293863722151656 -5.151498897199577 5.503070350884916
   follow "robot1"
 }
 TexturedBackground {
@@ -18,14 +18,39 @@ TexturedBackground {
 TexturedBackgroundLight {
   castShadows FALSE
 }
-CircleArena {
+RectangleArena {
+  floorSize 8 8
+  wallHeight 0.0001
   wallAppearance BrushedAluminium {
     colorOverride 0 0 0
   }
 }
+Solid {
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 0 0
+        roughness 0.5
+        metalness 0
+      }
+      geometry Mesh {
+        url [
+          "./tilde.obj"
+        ]
+      }
+    }
+  ]
+  name "tilde wall"
+  boundingObject Mesh {
+    url [
+      "./tilde.obj"
+    ]
+  }
+}
 Robot {
-  translation 0.84 -0.24 0
-  rotation 0 0 1 -1.5707953071795862
+  translation 0.382476 -0.690568 0
+  rotation 0 0 -1 -1.5707953071795862
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
@@ -218,8 +243,8 @@ Robot {
   ]
 }
 Robot {
-  translation 0.87 0.1 0
-  rotation 0 0 1 -1.5707953071795862
+  translation 0.40705 -1.23832 0
+  rotation 0 0 1 1.57079
   children [
     HingeJoint {
       jointParameters HingeJointParameters {
