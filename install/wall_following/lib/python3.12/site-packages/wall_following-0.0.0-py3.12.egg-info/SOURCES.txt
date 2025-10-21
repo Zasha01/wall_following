@@ -24,3 +24,4 @@ wall_following/my_robot_driver.py
 wall_following/obstacle_avoider.py
 wall_following/sinusoidal_motion.py
 worlds/my_world.wbt
+worlds/tilde.obj

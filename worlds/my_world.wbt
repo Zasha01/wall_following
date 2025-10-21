@@ -7,8 +7,8 @@ EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2022b/project
 WorldInfo {
 }
 Viewpoint {
-  orientation -0.32551252112484813 -0.40020041125993394 0.8566686812404928 4.764226232854815
-  position -0.457632332457399 4.528167839859021 3.703340341126822
+  orientation -0.3959549108713668 -0.40602470292020804 0.8236283440820894 4.544264424143047
+  position 0.313488856943117 1.878704224967826 3.142615420479539
   follow "robot1"
 }
 TexturedBackground {
@@ -18,9 +18,8 @@ TexturedBackgroundLight {
   castShadows FALSE
 }
 CircleArena {
-  radius 10.0
+  radius 10
 }
-
 Robot {
   translation 0.84 -0.24 0
   rotation 0 0 1 -1.5707953071795862
@@ -33,7 +32,7 @@ Robot {
       device [
         RotationalMotor {
           name "left wheel motor"
-          maxVelocity 80.0
+          maxVelocity 80
         }
       ]
       endPoint Solid {
@@ -103,7 +102,7 @@ Robot {
       ]
     }
     DistanceSensor {
-      translation 0.0 0.04849744832 0.063
+      translation 0 0.04849744832 0.063
       rotation 0 0 1 1.5707963267948966
       children [
         DEF SENSOR Pose {
@@ -133,7 +132,7 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.0 -0.04849744832 0.063
+      translation 0 -0.04849744832 0.063
       rotation 0 0 1 -1.5707963267948966
       children [
         USE SENSOR
@@ -147,7 +146,7 @@ Robot {
       numberOfRays 2
       aperture 1
     }
-DistanceSensor {
+    DistanceSensor {
       translation 0.042 0.02 0.063
       rotation 0 0 1 0.5236003061004253
       children [
@@ -274,7 +273,7 @@ Robot {
       device [
         RotationalMotor {
           name "left wheel motor"
-          maxVelocity 80.0
+          maxVelocity 80
         }
       ]
       endPoint Solid {
@@ -312,7 +311,7 @@ Robot {
       device [
         RotationalMotor {
           name "right wheel motor"
-          maxVelocity 80.0
+          maxVelocity 80
         }
       ]
       endPoint Solid {
@@ -344,7 +343,7 @@ Robot {
       ]
     }
     DistanceSensor {
-      translation 0.0 0.04849744832 0.063
+      translation 0 0.04849744832 0.063
       rotation 0 0 1 1.5707963267948966
       children [
         DEF SENSOR2 Pose {
@@ -374,7 +373,7 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0.0 -0.04849744832 0.063
+      translation 0 -0.04849744832 0.063
       rotation 0 0 1 -1.5707963267948966
       children [
         USE SENSOR2
@@ -388,7 +387,7 @@ Robot {
       numberOfRays 2
       aperture 1
     }
-DistanceSensor {
+    DistanceSensor {
       translation 0.042 0.02 0.063
       rotation 0 0 1 0.5236003061004253
       children [
@@ -449,20 +448,26 @@ DistanceSensor {
   ]
 }
 Solid {
-  translation 1.23 0 0
-  rotation 0 0 1 -1.57
+  translation 1.09995 -0.571765 0
+  rotation 0.6776620723211167 0.5199870554938015 0.5199880554939083 1.95044
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.7 0.7 0.7
+        baseColor 0 0 0
+        roughness 0.5
+        metalness 0
       }
-      geometry Box {
-        size 8 0.5 1
+      geometry Mesh {
+        url [
+          "tilde.obj"
+        ]
       }
     }
   ]
-  name "wall"
-  boundingObject Box {
-    size 8 0.5 1
+  name "tilde wall"
+  boundingObject Mesh{
+    url [
+      "./tilde.obj"
+    ]
   }
 }
