@@ -6,7 +6,7 @@ import math
 
 
 MAX_RANGE = 0.5
-MAX_RANGE_FRONT = 0.3
+MAX_RANGE_FRONT = 0.5
 
 
 class SinusoidalMotion(Node):
@@ -50,8 +50,8 @@ class SinusoidalMotion(Node):
         
         # Sinusoidal motion parameters
         self.__time_start = self.get_clock().now()
-        self.__base_speed = 0.1 # Base forward speed
-        self.__speed_amplitude = 0.01  # Amplitude of speed variation
+        self.__base_speed = 0.2 # Base forward speed
+        self.__speed_amplitude = 0.12  # Amplitude of speed variation
         self.__frequency = 0.5  # Frequency of oscillation (Hz)
         
         # Obstacle avoidance parameters
@@ -102,7 +102,7 @@ class SinusoidalMotion(Node):
 
         self.__publisher.publish(command_message)
     def computeAngularZ(self, current_sensor_value):
-        wall_distance = 0.2
+        wall_distance = 0.35
         if (current_sensor_value < wall_distance):
             return 8 * (current_sensor_value - wall_distance)
         elif (current_sensor_value < self.__avoidance_threshold_front): 

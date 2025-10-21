@@ -172,10 +172,10 @@ DistanceSensor {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.3 0 0
+        0.5 0 0
       ]
-      numberOfRays 1
-      aperture 0.5
+      numberOfRays 2
+      aperture 0.75
     }
     DistanceSensor {
       translation 0.042 -0.02 0.063
@@ -187,9 +187,9 @@ DistanceSensor {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.3 0 0
+        0.5 0 0
       ]
-      numberOfRays 1
+      numberOfRays 2
       aperture 0.5
     }
     DistanceSensor {
@@ -219,7 +219,7 @@ DistanceSensor {
         0.05 1020 0
         1 0 0
       ]
-      numberOfRays 1
+      numberOfRays 10
       aperture 0.75
     }
     Camera {
@@ -413,9 +413,9 @@ DistanceSensor {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.3 0 0
+        0.5 0 0
       ]
-      numberOfRays 1
+      numberOfRays 2
       aperture 0.5
     }
     DistanceSensor {
@@ -428,9 +428,9 @@ DistanceSensor {
       lookupTable [
         0 1020 0
         0.05 1020 0
-        0.3 0 0
+        0.5 0 0
       ]
-      numberOfRays 1
+      numberOfRays 2
       aperture 0.5
     }
   ]
