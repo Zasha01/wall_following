@@ -59,6 +59,93 @@ This will:
 - Start Robot2 (follower) with sinusoidal motion and obstacle avoidance
 
 
+## Trajectory Tracking
+
+The system includes comprehensive trajectory tracking capabilities:
+
+### Features
+- **Real-time Position Estimation**: Uses velocity integration (dead reckoning) to track robot positions
+- **Path Visualization**: Live trajectory visualization in RViz
+- **Data Logging**: Automatic logging of trajectory data to JSON files
+- **Analysis Tools**: Python scripts for trajectory analysis and visualization
+
+### Usage
+
+#### 1. **Real-time Visualization with RViz**
+```bash
+# Launch the multi-robot system with trajectory tracking
+ros2 launch wall_following multi_robot_launch.py
+
+# In another terminal, launch RViz with trajectory visualization
+rviz2 -d /path/to/wall_following/rviz/trajectory_visualization.rviz
+```
+
+#### 2. **Trajectory Analysis**
+```bash
+# Install visualization dependencies
+pip install matplotlib numpy
+
+# Analyze trajectories after running the system
+cd /home/zaka/ros2_ws/src/new/wall_following
+python3 scripts/visualize_trajectories.py --auto
+
+# Generate velocity analysis plots
+python3 scripts/visualize_trajectories.py --auto --analysis
+
+# Save plots without displaying
+python3 scripts/visualize_trajectories.py --auto --save /tmp/my_trajectory_plot.png --no-show
+```
+
+### Trajectory Data
+
+#### **Topics Published**
+- `/robot1/robot_path` - Robot1's trajectory path (nav_msgs/Path)
+- `/robot1/robot_pose` - Robot1's current pose (geometry_msgs/PoseStamped)
+- `/robot2/robot_path` - Robot2's trajectory path (nav_msgs/Path)
+- `/robot2/robot_pose` - Robot2's current pose (geometry_msgs/PoseStamped)
+
+#### **Log Files**
+Trajectory data is automatically saved to `/tmp/robot_trajectory_YYYYMMDD_HHMMSS.json` with:
+- Timestamp
+- X, Y coordinates
+- Orientation (theta)
+- Pose count
+
+#### **Analysis Features**
+- Path length calculation
+- Average speed analysis
+- Velocity profiles over time
+- Bounding box analysis
+- Duration statistics
+
+### Configuration
+
+#### **Trajectory Tracker Parameters**
+```python
+# In trajectory_tracker.py
+self.__wheel_radius = 0.025  # Wheel radius (meters)
+self.__half_distance_between_wheels = 0.045  # Half wheelbase (meters)
+```
+
+#### **RViz Configuration**
+The RViz configuration shows:
+- Grid for reference
+- Robot1 path (green)
+- Robot2 path (red)
+- Real-time pose updates
+
+### Limitations
+
+**Dead Reckoning Accuracy**: Since the robots don't have wheel encoders, position estimation relies on integrating velocity commands. This can accumulate errors over time, especially with:
+- Slippage
+- Uneven surfaces
+- Motor inaccuracies
+
+**Improvement Suggestions**:
+1. Add wheel encoders to the robot model
+2. Implement sensor fusion with distance sensors
+3. Use external positioning systems (camera-based tracking)
+
 ## System Architecture
 
 ### Robot1 (Leader) - `leader_follower.py`
@@ -111,7 +198,12 @@ wall_following/
 │   ├── leader_follower.py       # Robot1 behavior node
 │   ├── sinusoidal_motion.py     # Robot2 behavior node
 │   ├── obstacle_avoider.py     # Basic obstacle avoidance
+│   ├── trajectory_tracker.py     # Trajectory tracking node
 │   └── my_robot_driver.py      # Robot driver
+├── scripts/
+│   └── visualize_trajectories.py # Trajectory analysis tool
+├── rviz/
+│   └── trajectory_visualization.rviz # RViz configuration
 ├── resource/
 │   └── my_robot.urdf           # Robot description
 ├── worlds/

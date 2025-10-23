@@ -13,7 +13,7 @@ setup(
     version='0.0.0',
     packages=find_packages(exclude=['test']),
     data_files=data_files,
-    install_requires=['setuptools', 'opencv-python', 'cv-bridge'],
+    install_requires=['setuptools', 'opencv-python', 'cv-bridge', 'matplotlib', 'numpy'],
     zip_safe=True,
     maintainer='user',
     maintainer_email='user.name@mail.com',
@@ -25,7 +25,9 @@ setup(
             'my_robot_driver = wall_following.my_robot_driver:main',
             'obstacle_avoider = wall_following.obstacle_avoider:main',
             'sinusoidal_motion = wall_following.sinusoidal_motion:main',
-            'leader_follower = wall_following.leader_follower:main'
+            'leader_follower = wall_following.leader_follower:main',
+            'trajectory_tracker = wall_following.trajectory_tracker:main',
+            'simple_trajectory_tracker = wall_following.simple_trajectory_tracker:main'
         ],
     },
 )

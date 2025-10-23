@@ -49,12 +49,29 @@ def generate_launch_description():
         name='sinusoidal_motion'
     )
 
+    # Trajectory trackers for both robots
+    robot1_trajectory_tracker = Node(
+        package='wall_following',
+        executable='simple_trajectory_tracker',
+        namespace='robot1',
+        name='trajectory_tracker'
+    )
+
+    robot2_trajectory_tracker = Node(
+        package='wall_following',
+        executable='simple_trajectory_tracker',
+        namespace='robot2',
+        name='trajectory_tracker'
+    )
+
     return LaunchDescription([
         webots,
         robot1_driver,
         robot1_leader_follower,
+        robot1_trajectory_tracker,
         robot2_driver,
         robot2_sinusoidal_motion,
+        robot2_trajectory_tracker,
         launch.actions.RegisterEventHandler(
             event_handler=launch.event_handlers.OnProcessExit(
                 target_action=webots,
