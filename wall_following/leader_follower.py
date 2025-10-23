@@ -237,7 +237,7 @@ class LeaderFollower(Node):
         if self.__left_front_sensor_value < self.__avoidance_threshold_front or self.__right_front_sensor_value < self.__avoidance_threshold_front:
             command_message.angular.z = self.computeAngularZ(self.__left_front_sensor_value) if(self.__left_front_sensor_value < self.__right_front_sensor_value) else -self.computeAngularZ(self.__right_front_sensor_value)
         elif (self.__left_sensor_value > 0.5 * self.__avoidance_threshold) and (self.__left_sensor_value < self.__avoidance_threshold):
-            command_message.angular.z = -5 * (self.__left_sensor_value - 1)
+            command_message.angular.z = 3 * (1 + self.__left_sensor_value)
             command_message.linear.x = 0.2
 
         self.__publisher.publish(command_message)
