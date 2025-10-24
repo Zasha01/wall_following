@@ -1,10 +1,14 @@
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/obstacle_avoider.py
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/trajectory_tracker.py
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/my_robot_driver.py
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/simple_trajectory_tracker.py
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__init__.py
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/sinusoidal_motion.py
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/leader_follower.py
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/obstacle_avoider.cpython-312.pyc
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/trajectory_tracker.cpython-312.pyc
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/my_robot_driver.cpython-312.pyc
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/simple_trajectory_tracker.cpython-312.pyc
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/__init__.cpython-312.pyc
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/sinusoidal_motion.cpython-312.pyc
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/python3.12/site-packages/wall_following/__pycache__/leader_follower.cpython-312.pyc
@@ -25,4 +29,6 @@
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/leader_follower
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/my_robot_driver
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/obstacle_avoider
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/simple_trajectory_tracker
 /home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/sinusoidal_motion
+/home/ptratsae/robotics/assignment_1/wall_following/install/wall_following/lib/wall_following/trajectory_tracker

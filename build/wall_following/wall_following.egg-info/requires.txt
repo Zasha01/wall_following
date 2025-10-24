@@ -1,3 +1,5 @@
 cv-bridge
+matplotlib
+numpy
 opencv-python
 setuptools

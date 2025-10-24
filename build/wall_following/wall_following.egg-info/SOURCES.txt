@@ -22,6 +22,8 @@ wall_following/__init__.py
 wall_following/leader_follower.py
 wall_following/my_robot_driver.py
 wall_following/obstacle_avoider.py
+wall_following/simple_trajectory_tracker.py
 wall_following/sinusoidal_motion.py
+wall_following/trajectory_tracker.py
 worlds/my_world.wbt
 worlds/tilde.obj
