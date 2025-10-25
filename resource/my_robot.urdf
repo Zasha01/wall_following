@@ -11,16 +11,6 @@
                 <alwaysOn>true</alwaysOn>
             </ros>
     </device>
-    <device reference="ds2" type="DistanceSensor">
-            <ros>
-                <alwaysOn>true</alwaysOn>
-            </ros>
-    </device>
-    <device reference="ds3" type="DistanceSensor">
-            <ros>
-                <alwaysOn>true</alwaysOn>
-            </ros>
-        </device>
         <device reference="back_sensor" type="DistanceSensor">
             <ros>
                 <alwaysOn>true</alwaysOn>

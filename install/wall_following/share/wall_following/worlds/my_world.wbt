@@ -132,21 +132,6 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0 -0.04849744832 0.063
-      rotation 0 0 1 -1.5707963267948966
-      children [
-        USE SENSOR
-      ]
-      name "ds1"
-      lookupTable [
-        0 1020 0
-        0.05 1020 0
-        0.5 0 0
-      ]
-      numberOfRays 2
-      aperture 1
-    }
-    DistanceSensor {
       translation 0.042 0.02 0.063
       rotation 0 0 1 0.5236003061004253
       children [
@@ -167,7 +152,7 @@ Robot {
           ]
         }
       ]
-      name "ds2"
+      name "ds1"
       lookupTable [
         0 1020 0
         0.05 1020 0
@@ -175,21 +160,6 @@ Robot {
       ]
       numberOfRays 2
       aperture 0.75
-    }
-    DistanceSensor {
-      translation 0.042 -0.02 0.063
-      rotation 0 0 1 -0.5235996938995747
-      children [
-        USE SENSOR2
-      ]
-      name "ds3"
-      lookupTable [
-        0 1020 0
-        0.05 1020 0
-        0.5 0 0
-      ]
-      numberOfRays 2
-      aperture 0.5
     }
     DistanceSensor {
       translation -0.042 0 0.063
@@ -373,21 +343,6 @@ Robot {
       aperture 1
     }
     DistanceSensor {
-      translation 0 -0.04849744832 0.063
-      rotation 0 0 1 -1.5707963267948966
-      children [
-        USE SENSOR2
-      ]
-      name "ds1"
-      lookupTable [
-        0 1020 0
-        0.05 1020 0
-        0.5 0 0
-      ]
-      numberOfRays 2
-      aperture 1
-    }
-    DistanceSensor {
       translation 0.042 0.02 0.063
       rotation 0 0 1 0.5236003061004253
       children [
@@ -408,22 +363,7 @@ Robot {
           ]
         }
       ]
-      name "ds2"
-      lookupTable [
-        0 1020 0
-        0.05 1020 0
-        0.5 0 0
-      ]
-      numberOfRays 2
-      aperture 0.5
-    }
-    DistanceSensor {
-      translation 0.042 -0.02 0.063
-      rotation 0 0 1 -0.5235996938995747
-      children [
-        USE SENSOR2
-      ]
-      name "ds3"
+      name "ds1"
       lookupTable [
         0 1020 0
         0.05 1020 0

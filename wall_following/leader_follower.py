@@ -22,18 +22,14 @@ class LeaderFollower(Node):
         if namespace == '/':
             # If no namespace, use global topics
             left_topic = '/ds0'
-            right_topic = '/ds1'
-            left_front_topic = '/ds2'
-            right_front_topic = '/ds3'
+            left_front_topic = '/ds1'
             back_topic = '/back_sensor'
             color_topic = '/color_sensor/image_color'
             cmd_topic = '/cmd_vel'
         else:
             # If in namespace, use namespaced topics
             left_topic = f'{namespace}/ds0'
-            right_topic = f'{namespace}/ds1'
-            left_front_topic = f'{namespace}/ds2'
-            right_front_topic = f'{namespace}/ds3'
+            left_front_topic = f'{namespace}/ds1'
             back_topic = f'{namespace}/back_sensor'
             color_topic = f'{namespace}/color_sensor/image_color'
             cmd_topic = f'{namespace}/cmd_vel'
@@ -41,9 +37,7 @@ class LeaderFollower(Node):
         self.__publisher = self.create_publisher(Twist, cmd_topic, 1)
 
         self.create_subscription(Range, left_topic, self.__left_sensor_callback, 1)
-        self.create_subscription(Range, right_topic, self.__right_sensor_callback, 1)
         self.create_subscription(Range, left_front_topic, self.__left_front_sensor_callback, 1)
-        self.create_subscription(Range, right_front_topic, self.__right_front_sensor_callback, 1)
         self.create_subscription(Range, back_topic, self.__back_sensor_callback, 1)
         self.create_subscription(Image, color_topic, self.__color_callback, 1)
         
@@ -51,14 +45,12 @@ class LeaderFollower(Node):
         self.get_logger().info(f'Testing camera topic: {color_topic}')
         
         # Debug output
-        self.get_logger().info(f'Leader-follower subscribing to: {left_topic}, {right_topic}, {back_topic}, {color_topic}')
+        self.get_logger().info(f'Leader-follower subscribing to: {left_topic} {back_topic}, {color_topic}')
         self.get_logger().info(f'Leader-follower publishing to: {cmd_topic}')
         
         # Initialize sensor values
         self.__left_sensor_value = MAX_RANGE
-        self.__right_sensor_value = MAX_RANGE
         self.__left_front_sensor_value = MAX_RANGE_FRONT
-        self.__Right_front_sensor_value = MAX_RANGE_FRONT
         self.__back_sensor_value = BACK_SENSOR_MAX_RANGE
         self.__green_detected = False
         
@@ -85,7 +77,7 @@ class LeaderFollower(Node):
 
     def __log_status(self):
         """Periodic logging of sensor values and status"""
-        self.get_logger().info(f'Sensors - Left: {self.__left_sensor_value:.3f}, Right: {self.__right_sensor_value:.3f}, Back: {self.__back_sensor_value:.3f}')
+        self.get_logger().info(f'Sensors - Left: {self.__left_sensor_value:.3f}, Back: {self.__back_sensor_value:.3f}')
         self.get_logger().info(f'Color detection - Green detected: {self.__green_detected}')
         if self.__is_waiting_for_follower:
             if self.__green_detected:
@@ -99,15 +91,9 @@ class LeaderFollower(Node):
         self.__left_sensor_value = message.range
         #self.get_logger().info(f'Left sensor: {self.__left_sensor_value}')
 
-    def __right_sensor_callback(self, message):
-        self.__right_sensor_value = message.range
-        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
     def __left_front_sensor_callback(self, message):
         self.__left_front_sensor_value = message.range
-        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
-    def __right_front_sensor_callback(self, message):
-        self.__right_front_sensor_value = message.range
-        #self.get_logger().info(f'Right sensor: {self.__right_sensor_value}')
+        #self.get_logger().info(f'Left front sensor: {self.__left_front_sensor_value}')
 
     def __color_callback(self, message):
         """Process color image to detect green Robot2"""
@@ -210,14 +196,14 @@ class LeaderFollower(Node):
             # Robot2 detected behind us
             if self.__back_sensor_value > self.__follow_distance_threshold:
                 # Robot2 is too far away, slow down
-                command_message.linear.x = self.__base_speed * (1 - 2*(self.__back_sensor_value - self.__follow_distance_threshold))
+                command_message.linear.x = self.__base_speed * (1 - (self.__back_sensor_value - self.__follow_distance_threshold)/(BACK_SENSOR_MAX_RANGE - self.__follow_distance_threshold))
                 self.__is_waiting_for_follower = True
                 # Only log when state changes
                 if not previous_waiting_state:
                     self.get_logger().info(f'Started waiting for Robot2 (green detected) - distance: {self.__back_sensor_value:.3f}')
             else:
                 # Robot2 is close enough, normal speed
-                command_message.linear.x = self.__base_speed * (1.5 - self.__back_sensor_value)
+                command_message.linear.x = self.__base_speed * (1 + BACK_SENSOR_MAX_RANGE - self.__back_sensor_value)
                 self.__is_waiting_for_follower = False
                 # Only log when state changes
                 if previous_waiting_state:
@@ -234,20 +220,25 @@ class LeaderFollower(Node):
                     self.get_logger().info('Lost Robot2 (no object detected), slowing down to wait')
 
         # Obstacle avoidance logic (always active)
-        if self.__left_front_sensor_value < self.__avoidance_threshold_front or self.__right_front_sensor_value < self.__avoidance_threshold_front:
-            command_message.angular.z = self.computeAngularZ(self.__left_front_sensor_value) if(self.__left_front_sensor_value < self.__right_front_sensor_value) else -self.computeAngularZ(self.__right_front_sensor_value)
+        if self.__left_front_sensor_value < self.__avoidance_threshold_front:
+            command_message.angular.z = self.computeAngularZ_straight(self.__left_front_sensor_value)
         elif (self.__left_sensor_value > 0.5 * self.__avoidance_threshold) and (self.__left_sensor_value < self.__avoidance_threshold):
-            command_message.angular.z = 3 * (1 + self.__left_sensor_value)
-            command_message.linear.x = 0.2
+            command_message.angular.z = self.computeAngularZ_turn(self.__left_sensor_value)
 
         self.__publisher.publish(command_message)
-    def computeAngularZ(self, current_sensor_value):
+
+    def computeAngularZ_straight(self, current_sensor_value):
         wall_distance = 0.35
+        turn_amplitude = 6
         if (current_sensor_value < wall_distance):
-            return 8 * (current_sensor_value - wall_distance)
-        elif (current_sensor_value < MAX_RANGE): 
-            return 6 * (current_sensor_value - wall_distance)
+            return turn_amplitude * (current_sensor_value - wall_distance)
+        elif (current_sensor_value < self.__avoidance_threshold_front): 
+            return turn_amplitude * (current_sensor_value - wall_distance)
         return 0
+
+    def computeAngularZ_turn(self, current_sensor_value):
+        turn_amplitude = 3
+        return turn_amplitude * (1 + current_sensor_value)
 
 
 def main(args=None):
